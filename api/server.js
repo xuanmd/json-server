@@ -6,7 +6,14 @@ const middlewares = jsonServer.defaults();
 const port = process.env.PORT || 3000;
 
 server.use(middlewares);
-const rules = auth.rewriter({
+
+server.use(
+  jsonServer.rewriter({
+    '/api/*': '/$1',
+  })
+);
+
+const rules = jsonServerAuth.rewriter({
   // Permission rules
   users: 600,
   products: 644,
@@ -15,13 +22,6 @@ const rules = auth.rewriter({
 
 server.use(rules);
 server.use(jsonServerAuth);
-
-server.use(
-  jsonServer.rewriter({
-    '/api/*': '/$1',
-  })
-);
-
 server.use(router);
 
 server.listen(port);
