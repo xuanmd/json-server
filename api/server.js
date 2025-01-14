@@ -6,6 +6,14 @@ const middlewares = jsonServer.defaults();
 const port = process.env.PORT || 3000;
 
 server.use(middlewares);
+const rules = auth.rewriter({
+  // Permission rules
+  users: 600,
+  products: 644,
+  carts: 600,
+});
+
+server.use(rules);
 server.use(jsonServerAuth);
 
 server.use(
